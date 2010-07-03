@@ -443,7 +443,7 @@ function install_mathtools()
     "scilab")
       $APTGETCMD -y install scilab;;
     "octave")
-      $APTGETCMD -y install octave;;
+      $APTGETCMD -y install qtoctave;;
     "gnuplot")
       $APTGETCMD -y install gnuplot;;
     esac
@@ -455,30 +455,14 @@ function install_mathtools()
 #*******************************************************************************
 function install_misctools()
 {
-  #Prepare Konsole Desktop icon
-cat >> ~/post_install_tmp/Konsole.desktop << "EOF"
-[Desktop Entry]
-Encoding=UTF-8
-Exec='konsole'
-GenericName=Konsole
-Name=Konsole
-StartupNotify=true
-Terminal=false
-Type=Application
-X-KDE-SubstituteUID=true
-EOF
-
   for i in $MISCTOOLS_PKG; do
     case $i in
     "umbrello")
-      $APTGETCMD -y install umbrello;;
+      $APTGETCMD -y install bouml;;
     "geany")
       $APTGETCMD -y install geany;;
     "scons")
       $APTGETCMD -y install scons;;
-    "konsole")
-      $APTGETCMD -y install konsole
-      mv ~/post_install_tmp/Konsole.desktop ~/Desktop/;;
     "xclip")
       $APTGETCMD -y install xclip;;
     esac
@@ -580,7 +564,7 @@ function get_packages
   JAVA_PKG=`dialog_multi_choice "Please choose the Java packages you want to install." jdk ant junit log4j jdbc_mysql jdbc_postgresql`
 
   #Get Ruby environment
-  RUBYENV_PKG=`dialog_multi_choice "Please choose the ruby and ruby related package you want to install." ruby gem rails mongrel wxruby rubyzip vim-rails capistrano rspec`
+  RUBYENV_PKG=`dialog_multi_choice "Please choose the ruby and ruby related package you want to install." ruby gem rails mongrel rubyzip vim-rails capistrano rspec`
 
   #Get Math tools choices
   MATHTOOLS_PKG=`dialog_multi_choice "Please choose the mathtools you want to install." scilab octave gnuplot`
@@ -589,7 +573,7 @@ function get_packages
   fi
 
   #Get Miscallenous tools choices
-  MISCTOOLS_PKG=`dialog_multi_choice "Please choose the miscellanous tools you want to install." umbrello geany scons konsole xclip`
+  MISCTOOLS_PKG=`dialog_multi_choice "Please choose the miscellanous tools you want to install." bouml geany scons xclip`
 
     #Check if user wants NetBeans and that JDK is selected (pre-requisite)
     JAVA_JDK=""
