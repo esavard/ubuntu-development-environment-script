@@ -1,0 +1,8 @@
+TODOLIST
+--------
+ - Simulation (no changes)
+ - Support some option passing to apt-get (ex: --quiet, --simulate)
+ - Check if package is not already installed before trying to download/install
+   it again
+ - Add unit tests (shUnit2) and logging (Log4sh)
+ - Evaluate development environment compliance level

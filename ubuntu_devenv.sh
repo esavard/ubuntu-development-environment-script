@@ -5,46 +5,17 @@
 #
 # (K)UBUNTU - POST INSTALLATION SCRIPT THAT SETUP A DEVELOPER ENVIRONMENT
 #
-# TODOLIST
-#-------------------------------------------------------------------------------
-# - Simulation (no changes)
-# - Support some option passing to apt-get (ex: --quiet, --simulate)
-# - Check if package is not already installed before trying to download/install
-#   it again
-# - Add unit tests (shUnit2) and logging (Log4sh)
-# - Evaluate development environment compliance level
+# Copyright (C) 2010, Etienne Savard
 #
-# CHANGE LOG
-#-------------------------------------------------------------------------------
-# 2008-07-18: Beta release, tested with Ubuntu & KUbuntu 8.04
-# 2008-09-19 v1.0: Initial public release. Added dialogs and command line
-#                  switches
-# 2008-09-20 v1.1: Added some more packages (vim-rails, xclip, rubyzip, konsole)
-# 2008-09-27 v1.1.1: Corrected the netbeans path for desktop icon. Added a
-#                    check before trying to create post_install_tmp dir.
-# 2008-10-01 v1.1.2: Added Capistrano to the Ruby group.
-# 2008-12-04 v1.1.3: Updated Netbeans to version 6.5.
-# 2010-07-01 v2.0: Major update for Ubuntu 10.04 LTS (see website for more
-#                  details)
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
 #
-# CREDITS
-#-------------------------------------------------------------------------------
-# - The find_dialog function and related sub-functions were written by
-#   Ubuntu Customization Kit Team (http://uck.sourceforge.net/).  Big thanks!
-#
-# LEGAL
-#-------------------------------------------------------------------------------
-#Copyright (C) 2010, Etienne Savard
-#
-#This program is free software; you can redistribute it and/or modify it under
-#the terms of the GNU General Public License as published by the Free Software
-#Foundation; either version 2 of the License, or (at your option) any later
-#version.
-#
-#This program is distributed in the hope that it will be useful, but WITHOUT ANY
-#WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-#PARTICULAR PURPOSE. See the GNU General Public License for more details
-#(http://www.opensource.org/licenses/gpl-2.0.php).
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details
+# (http://www.opensource.org/licenses/gpl-2.0.php).
 #===============================================================================
 
 function failure()
@@ -274,7 +245,6 @@ function install_java()
 {
   if [ "$JAVA_JDK" = "present" ]; then
     $APTGETCMD -y install default-jdk
-    #sudo update-java-alternatives -s java-1.5.0-sun TODO: Check if still needed
 
     cat >> ~/.bash_profile <<"EOF"
 
@@ -318,10 +288,7 @@ EOF
 #*******************************************************************************
 function install_netbeans()
 {
-  wget http://download.netbeans.org/netbeans/6.9/final/bundles/netbeans-6.9-ml-linux.sh -O netbeans-6.9-linux.sh
-  sudo chmod +x ./netbeans-6.9-ml-linux.sh
-  sudo ./netbeans-6.9-ml-linux.sh --silent
-
+  $APTGETCMD -y install netbeans;;
 }
 
 #*******************************************************************************
@@ -359,6 +326,9 @@ function install_cppenv()
   $APTGETCMD -y install cppcheck valgrind
   $APTGETCMD -y install openmpi-bin openmpi-common openmpi-dbg openmpi-dev openmpi-libs0 libgomp1
   $APTGETCMD -y install swig
+  
+  $APTGETCMD -y install qtcreator
+
   #$APTGETCMD -y install libboost.*-dev libboost-doc libboost.*1.34.1
 
   #TODO: INTEL THREADING BUILDING BLOCKS
@@ -403,9 +373,6 @@ function install_rubyenv()
       sudo gem install rails;;
     "mongrel")
       sudo gem install mongrel;;
-    #"wxruby")
-    # sudo gem install wxruby
-    # sudo gem install wx_sugar;;
     "rubyzip")
       sudo gem install rubyzip;;
     "vim-rails")
@@ -414,6 +381,10 @@ function install_rubyenv()
       sudo gem install capistrano;;
     "rspec")
       sudo gem install rspec;;
+    "heroku")
+      sudo gem install heroku;;
+    "qtbindings")
+      $APTGETCMD install libqt4-ruby;;
     esac
   done
 
@@ -564,7 +535,7 @@ function get_packages
   JAVA_PKG=`dialog_multi_choice "Please choose the Java packages you want to install." jdk ant junit log4j jdbc_mysql jdbc_postgresql`
 
   #Get Ruby environment
-  RUBYENV_PKG=`dialog_multi_choice "Please choose the ruby and ruby related package you want to install." ruby gem rails mongrel rubyzip vim-rails capistrano rspec`
+  RUBYENV_PKG=`dialog_multi_choice "Please choose the ruby and ruby related package you want to install." ruby gem rails mongrel rubyzip vim-rails capistrano rspec heroku`
 
   #Get Math tools choices
   MATHTOOLS_PKG=`dialog_multi_choice "Please choose the mathtools you want to install." scilab octave gnuplot`
