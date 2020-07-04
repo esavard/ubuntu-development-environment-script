@@ -1,8 +1,7 @@
 ubuntu_devenv.sh is a post installation script that helps setup a development environment
-on Ubuntu using a dialog.  For a full list of the packages installed by this script, visit
+on Ubuntu using a dialog.
 
-http://symbiosoft.net/ubuntu_devenv
-
+*NO MORE DEVELOPMENT ON THIS PROJECT. UNSUPPORTED*
 
 CREDITS
 -------
